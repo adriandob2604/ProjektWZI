@@ -1,1 +1,1 @@
-# ProjektWZI
+Adrian Dobkowski, gr.1
