@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from engine import Session, Stacja
+from engine import Session, E95
 session = Session()
 def get_e95():
     official_list = []
@@ -26,7 +26,6 @@ def get_e95():
         # Adress
         td = soup.find_all('td')
         td_text = [t.find(string=True, recursive=False) for t in td if t.find(string=True, recursive=False) not in ["\n", None, "Więcej cen po reklamie:"]]
-
         for j in range(len(paired_data)):
             if paired_data[j] not in official_list:
                 name, adres, price, actual_date = paired_data[j][0], td_text[j], paired_data[j][1], dates[j]
@@ -34,12 +33,12 @@ def get_e95():
                     session.commit()
                     session.close()
                     return
-                existing_station = session.query(Stacja).filter_by(name=name, adres=adres).first()
+                existing_station = session.query(E95).filter_by(name=name, adres=adres).first()
                 if existing_station:
                     existing_station.price = price
                     existing_station.actual_date = actual_date
                 else:
-                    stacja = Stacja(name=name, adres=adres, price=price, actual_date=actual_date)
+                    stacja = E95(name=name, adres=adres, price=price, actual_date=actual_date)
                     session.add(stacja)
     session.commit()
     session.close()
