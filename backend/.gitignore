@@ -1,6 +1,0 @@
-*.db
-.env
-.DS_Store
-dist/
-build/
-venv/
